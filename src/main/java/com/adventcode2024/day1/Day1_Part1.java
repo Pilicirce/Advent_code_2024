@@ -1,4 +1,4 @@
-package com.adventcode2023.day1;
+package com.adventcode2024.day1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,7 +18,7 @@ public class Day1_Part1 {
 
         System.out.println("SOLVING EXERCISE DAY 1, PART 1 : ");
 
-        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\ejercicioDia1.txt";
+        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\ejercicioDia1_2024.txt";
 
         try {
             // 1) Open the file for reading
