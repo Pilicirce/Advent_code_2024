@@ -8,6 +8,8 @@ public class AdventCodeApp {
     // this is the main class of the project. It indicates which Day and Part of the Adven Code must run
     public static void main(String[] args) {
 
+        // Aquí llamo a los métodos de mis ejercicios según sea necesario
+        Day1_Part1.solveDay1Part1();
        
     }
 }
