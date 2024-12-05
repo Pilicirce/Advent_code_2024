@@ -13,13 +13,13 @@ public class Day1_Part1 {
 
         solveDay1Part1();
 
-    }
+        }
 
     public static void solveDay1Part1() {
 
         System.out.println("SOLVING EXERCISE DAY 1, PART 1 : ");
 
-        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\ejercicioDia1_2024_reduc.txt";
+        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\ejercicioDia1_2024.txt";
 
         try {
             // 1) Open the file for reading
@@ -45,23 +45,15 @@ public class Day1_Part1 {
                 Collections.sort(leftList);
                 Collections.sort(rightList);
 
-                //5) Calcular las "distancias"(diferencias) entre los números ordenados de las dos listas
-                List<Integer> differences = new ArrayList<>();
-
-                for (int i = 0; i < leftList.size(); i++) {
-                    // Calcula la diferencia y añádela a la lista de diferencias
-                    differences.add(Math.abs(leftList.get(i) - rightList.get(i)));
-
-                //6) Suma las diferencias
+                //5) Calcular las "distancias"(diferencias) entre los números ordenados de las dos listas y la distancia total
                 int totalDistance = 0;
-
-                for (int diff : differences) {
-                    totalDistance += diff;
+                for (int i = 0; i < leftList.size(); i++) {
+                    totalDistance += Math.abs(leftList.get(i) - rightList.get(i));
                 }
-                
-                // Show the result
+          
+                // 6) Show the result
                 System.out.println("Total distance " + totalDistance);
-            }
+            
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,4 +61,5 @@ public class Day1_Part1 {
 
         throw new UnsupportedOperationException("Unimplemented method 'solveDay1Part1'");
     }
+}
 
