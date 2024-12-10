@@ -10,6 +10,7 @@ public class AdventCodeApp {
 
         // Aquí llamo a los métodos de mis ejercicios según sea necesario
         Day1_Part1.solveDay1Part1();
+        Day1_Part2.solveDay1Part2();
        
     }
 }
