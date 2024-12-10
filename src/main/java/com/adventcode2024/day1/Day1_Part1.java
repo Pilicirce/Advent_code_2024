@@ -65,7 +65,6 @@ public class Day1_Part1 {
         //     e.printStackTrace();
         // }
 
-        throw new UnsupportedOperationException("Unimplemented method 'solveDay1Part1'");
     }
 
  /**
