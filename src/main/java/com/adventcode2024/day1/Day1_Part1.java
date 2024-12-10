@@ -45,7 +45,7 @@ public class Day1_Part1 {
                 Collections.sort(leftList);
                 Collections.sort(rightList);
 
-                //5) Calcular las "distancias"(diferencias) entre los números ordenados de las dos listas y la distancia total
+                //5) Calcular las "distancias"(diferencias) entre los números ordenados de las dos listas y los va sumando a la variable con el total
                 int totalDistance = 0;
                 for (int i = 0; i < leftList.size(); i++) {
                     totalDistance += Math.abs(leftList.get(i) - rightList.get(i));
