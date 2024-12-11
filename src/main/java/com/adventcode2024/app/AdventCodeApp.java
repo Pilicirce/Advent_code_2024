@@ -2,6 +2,7 @@ package com.adventcode2024.app;
 
 import com.adventcode2024.day1.Day1_Part1;
 import com.adventcode2024.day1.Day1_Part2;
+import com.adventcode2024.day2.Day2_Part1;
 
 public class AdventCodeApp {
 
@@ -11,6 +12,7 @@ public class AdventCodeApp {
         // Aquí llamo a los métodos de mis ejercicios según sea necesario
         Day1_Part1.solveDay1Part1();
         Day1_Part2.solveDay1Part2();
+        Day2_Part1.solveDay2Part1();
        
     }
 }
