@@ -19,7 +19,7 @@ public class Day1_Part1 {
 
         System.out.println("SOLVING EXERCISE DAY 1, PART 1 : ");
 
-        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\ejercicioDia1_2024.txt";
+        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\Advent_code_2024\\inputDia1_2024.txt";
 
         // try {
             // // 1) Open the file for reading

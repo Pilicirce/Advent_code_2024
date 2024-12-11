@@ -16,7 +16,7 @@ public class Day1_Part2 {
 
         System.out.println("SOLVING EXERCISE DAY 1, PART 2 : ");
 
-        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\ejercicioDia1_2024.txt";
+        String filePath = "C:\\Users\\msolisma\\Desktop\\PILI\\CURSOS\\AdventCode\\Advent_code_2024\\inputDia1_2024.txt";
 
             // 1) declarar variables (y llamo al método que carga las listas del Day1_Part1)
             List<List<Integer>> lists = Day1_Part1.loadListsFromFileDay1(filePath);
