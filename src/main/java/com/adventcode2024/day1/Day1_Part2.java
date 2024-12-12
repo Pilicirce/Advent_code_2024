@@ -53,7 +53,5 @@ public class Day1_Part2 {
             //4) Show the result
                 System.out.println("Total score " + similarityScore);
             
-            
-    throw new UnsupportedOperationException("Unimplemented method 'solveDay1Part2'");
     }
 }
