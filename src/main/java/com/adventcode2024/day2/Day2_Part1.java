@@ -42,9 +42,9 @@ public class Day2_Part1 {
         //4) llamar al método que comprueba si un report es safe (método a parte)
         if (isSafe(levelsReport)) { 
             totalSafeReports++;
-            System.out.println("El report " + levelsReport + " es SAFE.");
+            // System.out.println("El report " + levelsReport + " es SAFE.");
         } else {
-            System.out.println("El report " + levelsReport + " NO es SAFE.");
+            // System.out.println("El report " + levelsReport + " NO es SAFE.");
         }
     }
         //6) Close the file
