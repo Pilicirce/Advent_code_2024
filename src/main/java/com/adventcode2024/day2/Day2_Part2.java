@@ -25,7 +25,9 @@ public class Day2_Part2 {
 
         //2) declare variables
         String report;
-        int totalSafeReports = 0;
+        int safeReportsWithoutTolerance = 0;
+        int safeReportsWithTolerance = 0;
+        List<List<Integer>> unsafeReports = new ArrayList<>(); // Lista para reportes inseguros
         
         //3) Iterate over each line of the file and split the line into parts (levels separados por espacios)
                 
@@ -38,19 +40,30 @@ public class Day2_Part2 {
                 }
                 
 
-        //4) llamar al método que comprueba si un report es safe aun con tolerancias (quitando un level) (método a parte)
-        if (isSafeWithTolerances(levelsReport)) { 
-            totalSafeReports++;
+        //4) llamar al método que comprueba si un report es safe, primero SIN tolerancias
+        if (isSafeWithoutTolerance(levelsReport)) { 
+            safeReportsWithoutTolerance++;
             // System.out.println("El report " + levelsReport + " es SAFE.");
         } else {
             // System.out.println("El report " + levelsReport + " NO es SAFE.");
+            // Si no es seguro, agregarlo a la lista de inseguros
+            unsafeReports.add(levelsReport);
+        }
+    }
+
+    // 5) Procesar reportes inseguros (lista quitando los seguros que ya están contados). Esta vez CON tolerancia
+    for (List<Integer> levels : unsafeReports) {
+        if (isSafeWithTolerances(levels)) {
+            safeReportsWithTolerance++;
         }
     }
         //6) Close the file
         reader.close();
 
-        //7) Show the result
-        System.out.println("Número total de reports que son safe: " + totalSafeReports);
+        //7) Calcular el total y Show the result
+        int totalSafeReports = safeReportsWithoutTolerance + safeReportsWithTolerance;
+            System.out.println("Número total de reports que son safe: " + totalSafeReports);
+        
 
     } catch (IOException e) {
          e.printStackTrace();
@@ -58,74 +71,49 @@ public class Day2_Part2 {
 
     }
 
-    //Method to check if a report is safe. Comparar los levels de cada report: es safe si se cumplen estas TRES condiciones: 
+
+
+
+    //Method to check if a report is safe. Comparar los levels de cada report: es safe si se cumplen estas dos condiciones: 
         //-The levels are either all increasing or all decreasing.
         //-Any two adjacent levels differ by at least one and at most three.
-        //-if removing a single level from an unsafe report would make it safe, the report instead counts as safe
-public static boolean isSafeWithTolerances(List<Integer> levels) {
-    boolean isIncreasing = true;
-    boolean isDecreasing = true;
-
-    for (int i = 0; i < levels.size() - 1; i++) {
-
-        int diff = levels.get(i + 1) - levels.get(i);
-        // int diffTolerated = levels.get(i + 2) - levels.get(i);
-
-         // Check if difference is within the range [1, 3]
-         if ((Math.abs(diff) < 1 || Math.abs(diff) > 3)){
-            return false;
+        private static boolean isSafeWithoutTolerance(List<Integer> levels) {
+            boolean isIncreasing = true;
+            boolean isDecreasing = true;
+    
+            for (int i = 0; i < levels.size() - 1; i++) {
+                int diff = levels.get(i + 1) - levels.get(i);
+    
+                if (Math.abs(diff) < 1 || Math.abs(diff) > 3) {
+                    return false;
+                }
+    
+                if (diff > 0) {
+                    isDecreasing = false;
+                } else if (diff < 0) {
+                    isIncreasing = false;
+                }
+            }
+    
+            return isIncreasing || isDecreasing;
         }
+    
 
-         // Check for increasing and decreasing trends
-         if (diff > 0 ) {
-            isDecreasing = false;
-        } else if (diff < 0 ) {
-            isIncreasing = false;
-        }
-    }
 
-    // Si el reporte ya es seguro, no necesitamos tolerancia
-    if (isIncreasing || isDecreasing) {
-        return true;
-    }
+//método para verificar si un report es seguro CON tolerancias
 
-     // Verificar si eliminar un nivel hace que el reporte sea seguro
-     for (int i = 0; i < levels.size(); i++) {
-        // Crear una copia de la lista excluyendo el nivel actual
+private static boolean isSafeWithTolerances(List<Integer> levels) {
+    // Intentar eliminar cada nivel y verificar si el resto es seguro
+    for (int i = 0; i < levels.size(); i++) {
         List<Integer> modifiedLevels = new ArrayList<>(levels);
         modifiedLevels.remove(i);
 
-        // Repetir la verificación con la lista modificada
-        if (isSafeWithoutTolerance(modifiedLevels)) {
+        //llamamos de nuevo al método "estrella" de isSafeWithoutTolerance, pero ya hemos quitado un level
+        if (isSafeWithoutTolerance(modifiedLevels)) { 
             return true;
         }
     }
-
-    // Si ninguna eliminación hace que el reporte sea seguro, es inseguro
-    return false;
-    
+    return false; // Ninguna eliminación hace que el reporte sea seguro
+}
 }
 
-// Método auxiliar para verificar si un reporte es seguro sin tolerancias
-private static boolean isSafeWithoutTolerance(List<Integer> levels) {
-    boolean isIncreasing = true;
-    boolean isDecreasing = true;
-
-    for (int i = 0; i < levels.size() - 1; i++) {
-        int diff = levels.get(i + 1) - levels.get(i);
-
-        if (Math.abs(diff) < 1 || Math.abs(diff) > 3) {
-            return false;
-        }
-
-        if (diff > 0) {
-            isDecreasing = false;
-        } else if (diff < 0) {
-            isIncreasing = false;
-        }
-    }
-
-    return isIncreasing || isDecreasing;
-}
-    
-}
