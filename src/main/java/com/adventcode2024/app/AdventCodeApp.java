@@ -17,6 +17,6 @@ public class AdventCodeApp {
         Day2_Part1.solveDay2Part1();
         Day2_Part2.solveDay2Part2();
         Day3_Part1.solveDay3Part1();
-       
+   
     }
 }

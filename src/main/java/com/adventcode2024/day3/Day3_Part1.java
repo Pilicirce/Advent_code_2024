@@ -12,7 +12,6 @@ public class Day3_Part1 {
     public static void main(String[] args) {
 
         solveDay3Part1();
-
         }
 
     public static void solveDay3Part1() {
@@ -46,24 +45,29 @@ public class Day3_Part1 {
         Pattern pattern =  Pattern.compile(regex);
         Matcher matcher = pattern.matcher(textoCompleto);  
 
-        //4) Buscar coincidencias
-        while (matcher.find()) {
-        String coincidencia = matcher.group(); // Captura la coincidencia completa
-        // int x = Integer.parseInt(matcher.group(1)); // Primer número
-        // int y = Integer.parseInt(matcher.group(2)); // Segundo número
-        // System.out.println("Coincidencia encontrada: " + coincidencia + " -> Números: " + x + ", " + y);
+    //4) Buscar coincidencias
+    List<int[]> listaNumeros = new ArrayList<>();
+    while (matcher.find()) {
+    // String coincidencia = matcher.group(); // Captura la coincidencia completa
+    // int x = Integer.parseInt(matcher.group(1)); // Primer número
+    // int y = Integer.parseInt(matcher.group(2)); // Segundo número
+    // System.out.println("Coincidencia encontrada: " + coincidencia + " -> Números: " + x + ", " + y);
 
-        //5) agregar (x, y) a una lista para procesarlo luego. Almacenar cada par en un array de dos enteros (int[])
-            List<int[]> listaNumeros = new ArrayList<>();
-             while (matcher.find()) {
-                int x = Integer.parseInt(matcher.group(1));
-                int y = Integer.parseInt(matcher.group(2));
-                listaNumeros.add(new int[] {x, y}); 
-            }
-        }
+    //5) agregar (x, y) a una lista para procesarlo luego. Almacenar cada par en un array de dos enteros (int[])
+        int x = Integer.parseInt(matcher.group(1));
+        int y = Integer.parseInt(matcher.group(2));
+        listaNumeros.add(new int[] {x, y}); 
+    }
 
         //6) Recorrer la lista, hacer las multiplicaciones pertinentes y despues sumarlas
         int totalSumPattern = 0;
+        for (int[] group1 : listaNumeros) {
+            int multiplicationResult = 1;
+            for (int number : group1) {
+                multiplicationResult *= number;
+            }
+            totalSumPattern += multiplicationResult;
+        }
 
         //7) Close the file
         reader.close();
