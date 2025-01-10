@@ -5,6 +5,7 @@ import com.adventcode2024.day1.Day1_Part2;
 import com.adventcode2024.day2.Day2_Part1;
 import com.adventcode2024.day2.Day2_Part2;
 import com.adventcode2024.day3.Day3_Part1;
+import com.adventcode2024.day3.Day3_Part2;
 
 public class AdventCodeApp {
 
@@ -17,6 +18,7 @@ public class AdventCodeApp {
         Day2_Part1.solveDay2Part1();
         Day2_Part2.solveDay2Part2();
         Day3_Part1.solveDay3Part1();
+        Day3_Part2.solveDay3Part2();
    
     }
 }
