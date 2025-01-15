@@ -24,42 +24,82 @@ public class Day3_Part2 {
         try {
         //1) Open the file for reading
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
+         // Leer el archivo completo en una sola línea
+         StringBuilder contenido = new StringBuilder();
 
-        //2) declare variables
-        String linea;
+         String linea;
+         while ((linea = reader.readLine()) != null) {
+             contenido.append(linea);
+         }
+         String textoCompleto = contenido.toString();
+
+        //2) declare variables y expresiones regulares
         String regex = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
         String controlRegex = "do\\(\\)|don't\\(\\)";
         boolean isMulEnabled = true; // Variable para rastrear el estado de habilitación
         int totalSumPattern = 0;
 
-        // 3) Compilar el patrón combinado
-        String combinedRegex = regex + "|" + controlRegex;
-        Pattern combinedPattern = Pattern.compile(combinedRegex);
+        // 3) Compilar patrones
+        Pattern patternMul = Pattern.compile(regexMul);
+        Pattern patternControl = Pattern.compile(regexControl);
 
-        // 4) Leer el archivo línea por línea y procesar instrucciones
-        while ((linea = reader.readLine()) != null) {
-            Matcher matcher = combinedPattern.matcher(linea);
+        //4) Matcher para procesar el texto
+        Matcher matcherMul = patternMul.matcher(textoCompleto);
+        Matcher matcherControl = patternControl.matcher(textoCompleto);
 
-            while (matcher.find()) {
-                String match = matcher.group();
-        
-                // 5) Procesar instrucciones de control
-                if (match.equals("do()")) {
-                    isMulEnabled = true;
-                } else if (match.equals("don't()")) {
-                    isMulEnabled = false;
-                }
-                
-                // 6) Procesar multiplicaciones si están habilitadas
-                else if (match.startsWith("mul(")) {
+        //5) Procesar el texto en orden
+            int lastIndex = 0;
+            while (matcherMul.find() || matcherControl.find()) {
+                if (matcherControl.find(lastIndex) && 
+                    (!matcherMul.find(lastIndex) || matcherControl.start() < matcherMul.start())) {
+                    // Procesar instrucción de control
+                    String control = matcherControl.group();
+                    if (control.equals("do()")) {
+                        isMulEnabled = true;
+                    } else if (control.equals("don't()")) {
+                        isMulEnabled = false;
+                    }
+                    lastIndex = matcherControl.end();
+                } else if (matcherMul.find(lastIndex)) {
+                    // Procesar instrucción mul si está habilitada
                     if (isMulEnabled) {
-                        int x = Integer.parseInt(matcher.group(1));
-                        int y = Integer.parseInt(matcher.group(2));
+                        int x = Integer.parseInt(matcherMul.group(1));
+                        int y = Integer.parseInt(matcherMul.group(2));
                         totalSumPattern += x * y;
                     }
+                    lastIndex = matcherMul.end();
                 }
             }
-        }
+
+
+
+
+        // // 4) Leer el archivo línea por línea y procesar instrucciones
+        // while ((linea = reader.readLine()) != null) {
+        //     Matcher matcher = combinedPattern.matcher(linea);
+
+        //     while (matcher.find()) {
+        //         String match = matcher.group();
+        
+        //         // 5) Procesar instrucciones de control
+        //         if (match.equals("do()")) {
+        //             isMulEnabled = true;
+        //         } else if (match.equals("don't()")) {
+        //             isMulEnabled = false;
+        //         }
+                
+        //         // 6) Procesar multiplicaciones si están habilitadas
+        //         else if (match.startsWith("mul(")) {
+        //             if (isMulEnabled) {
+        //                 int x = Integer.parseInt(matcher.group(1));
+        //                 int y = Integer.parseInt(matcher.group(2));
+        //                 totalSumPattern += x * y;
+        //             }
+        //         }
+        //     }
+        // }
+
+
                 
         // //3)Para leer el archivo
         // StringBuilder contenido = new StringBuilder();
