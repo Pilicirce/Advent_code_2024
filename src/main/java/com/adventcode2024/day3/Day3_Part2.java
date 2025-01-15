@@ -33,116 +33,39 @@ public class Day3_Part2 {
          }
          String textoCompleto = contenido.toString();
 
+
         //2) declare variables y expresiones regulares
-        String regex = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
-        String controlRegex = "do\\(\\)|don't\\(\\)";
+        String regexAll = "mul\\((\\d+),(\\d+)\\)|do\\(\\)|don't\\(\\)";
+        // String regexMul = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
+        // String controlRegex = "do\\(\\)|don't\\(\\)";
         boolean isMulEnabled = true; // Variable para rastrear el estado de habilitación
         int totalSumPattern = 0;
 
-        // 3) Compilar patrones
-        Pattern patternMul = Pattern.compile(regexMul);
-        Pattern patternControl = Pattern.compile(regexControl);
+        //3) Compilar patrones
+        Pattern pattern = Pattern.compile(regexAll);
+        Matcher matcher = pattern.matcher(textoCompleto);
 
-        //4) Matcher para procesar el texto
-        Matcher matcherMul = patternMul.matcher(textoCompleto);
-        Matcher matcherControl = patternControl.matcher(textoCompleto);
 
-        //5) Procesar el texto en orden
-            int lastIndex = 0;
-            while (matcherMul.find() || matcherControl.find()) {
-                if (matcherControl.find(lastIndex) && 
-                    (!matcherMul.find(lastIndex) || matcherControl.start() < matcherMul.start())) {
-                    // Procesar instrucción de control
-                    String control = matcherControl.group();
-                    if (control.equals("do()")) {
-                        isMulEnabled = true;
-                    } else if (control.equals("don't()")) {
-                        isMulEnabled = false;
-                    }
-                    lastIndex = matcherControl.end();
-                } else if (matcherMul.find(lastIndex)) {
-                    // Procesar instrucción mul si está habilitada
+        //4) Buscar coincidencias de control y actualizar el estado
+        while (matcher.find()) {
+                String match = matcher.group();
+
+                if (match.equals("do()")) {
+                    isMulEnabled = true; // Activar multiplicaciones
+                } else if (match.equals("don't()")) {
+                    isMulEnabled = false; // Desactivar multiplicaciones
+                } else {
+                    // Procesar mul(x, y) solo si están habilitadas
                     if (isMulEnabled) {
-                        int x = Integer.parseInt(matcherMul.group(1));
-                        int y = Integer.parseInt(matcherMul.group(2));
-                        totalSumPattern += x * y;
+                        Matcher mulMatcher = Pattern.compile("mul\\((\\d+),(\\d+)\\)").matcher(match);
+                        if (mulMatcher.find()) {
+                            int x = Integer.parseInt(mulMatcher.group(1));
+                            int y = Integer.parseInt(mulMatcher.group(2));
+                            totalSumPattern += x * y;
+                        }
                     }
-                    lastIndex = matcherMul.end();
                 }
             }
-
-
-
-
-        // // 4) Leer el archivo línea por línea y procesar instrucciones
-        // while ((linea = reader.readLine()) != null) {
-        //     Matcher matcher = combinedPattern.matcher(linea);
-
-        //     while (matcher.find()) {
-        //         String match = matcher.group();
-        
-        //         // 5) Procesar instrucciones de control
-        //         if (match.equals("do()")) {
-        //             isMulEnabled = true;
-        //         } else if (match.equals("don't()")) {
-        //             isMulEnabled = false;
-        //         }
-                
-        //         // 6) Procesar multiplicaciones si están habilitadas
-        //         else if (match.startsWith("mul(")) {
-        //             if (isMulEnabled) {
-        //                 int x = Integer.parseInt(matcher.group(1));
-        //                 int y = Integer.parseInt(matcher.group(2));
-        //                 totalSumPattern += x * y;
-        //             }
-        //         }
-        //     }
-        // }
-
-
-                
-        // //3)Para leer el archivo
-        // StringBuilder contenido = new StringBuilder();
-        // while ((linea = reader.readLine()) != null) {
-        //     contenido.append(linea);
-        // }
-
-        // String textoCompleto = contenido.toString(); // Ahora tengo todo el texto en una sola variable
-
-        // //4) Compilar los patrones (uno para "mul" y otro para "do y don't")
-        //  Pattern pattern =  Pattern.compile(regex); //compila la expresion regular (regex) en un patrón
-        //  Pattern controlPattern = Pattern.compile(controlRegex);
-        //  Matcher matcher = pattern.matcher(textoCompleto);  
-        //  Matcher controlMatcher = controlPattern.matcher(textoCompleto);
-
-        // //5) Buscar coincidencias de control y actualizar el estado
-        // while (controlMatcher.find()) { 
-        //     if (controlMatcher.group().equals("do()")) {
-        //         isMulEnabled = true;
-        //     } else if (controlMatcher.group().equals("don't()")) {
-        //         isMulEnabled = false;
-        //     }
-        // }
-
-        // // 6) Buscar coincidencias de "mul" y procesarlas si están habilitadas
-        // List<int[]> listaNumeros = new ArrayList<>();
-        // while (matcher.find()) {
-        //     if (isMulEnabled) {
-        //         int x = Integer.parseInt(matcher.group(1));
-        //         int y = Integer.parseInt(matcher.group(2));
-        //         listaNumeros.add(new int[]{x, y});
-        //     }
-        // }
-
-        // //7) Recorrer la lista, hacer las multiplicaciones pertinentes y después sumarlas
-        // int totalSumPattern = 0;
-        // for (int[] group1 : listaNumeros) {
-        //     int multiplicationResult = 1;
-        //     for (int number : group1) {
-        //         multiplicationResult *= number;
-        //     }
-        //     totalSumPattern += multiplicationResult;
-        // }
 
          // 8) Close the file
          reader.close();
