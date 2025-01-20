@@ -23,10 +23,10 @@ public class Day4_Part1 {
         //llamamos a la funcion para leer el archivo y obtener la matriz
         char[][] matrix = readFileAsMatrix(filePath);
 
-         // Imprimimos la matriz para verificar que se leyó correctamente
-         for (char[] row : matrix) {
-            System.out.println(new String(row)); // Convertimos la fila a String para imprimirla
-        }
+         // Imprimimos la matriz para verificar que se leyó correctamente (pero esto es temporal, no hace falta luego)
+        //  for (char[] row : matrix) {
+        //     System.out.println(new String(row)); // Convertimos la fila a String para imprimirla
+        // }
 
 
         //2) Definir las direcciones de búsqueda.
@@ -41,30 +41,8 @@ public class Day4_Part1 {
             {-1, 1}   // Diagonal ↗
         };
 
-        //3) Escribir una función para contar "XMAS" en una dirección específica.
-        //3.1) Dado un punto de inicio (x, y) y una dirección (dx, dy), verifica si hay suficiente espacio para formar "XMAS".
-        //3.2) Si hay espacio, comprueba si las siguientes letras forman "XMAS".
-        public static boolean isXMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
+        //3) Escribir una función para contar "XMAS" en una dirección específica. (a parte)    
 
-            String word = "XMAS";
-
-             // Verificar si hay suficiente espacio para formar la palabra
-        if (x + (word.length() - 1) * dx < 0 || x + (word.length() - 1) * dx >= matrix.length ||
-        y + (word.length() - 1) * dy < 0 || y + (word.length() - 1) * dy >= matrix[0].length) {
-        return false; // No hay espacio suficiente
-        }
-        
-             // Comprobar si las siguientes letras forman "XMAS"
-            for (int j = 0; j < word.length(); j++) {
-                if (matrix[x + j * dx][y + j * dy] != word.charAt(j)) {
-                    return false; // No coincide
-                }
-            }
-            return true; // Se encontró "XMAS"
-        }
-        
-
-        
 
         //4) Iterar sobre toda la matriz para cada dirección.
         int totalXMASCount = 0;
@@ -82,9 +60,7 @@ public class Day4_Part1 {
         }
 
         //5) 5) Imprimir el resultado
-System.out.println("Total XMAS Count: " + totalXMASCount);
-
-
+    System.out.println("Total XMAS Count: " + totalXMASCount);
 
     
         } catch (IOException e) {
@@ -92,6 +68,28 @@ System.out.println("Total XMAS Count: " + totalXMASCount);
         }
     }
 
+
+
+    /**
+     * 3) Verifica si "XMAS" está presente en una dirección específica desde un punto dado en la matriz.
+     */
+    public static boolean isXMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
+        String word = "XMAS";
+
+        // 3.1) Verificar si hay suficiente espacio para formar la palabra
+        if (x + (word.length() - 1) * dx < 0 || x + (word.length() - 1) * dx >= matrix.length ||
+            y + (word.length() - 1) * dy < 0 || y + (word.length() - 1) * dy >= matrix[0].length) {
+            return false; // No hay espacio suficiente
+        }
+
+        // 3.2) Comprobar si las siguientes letras forman "XMAS"
+        for (int j = 0; j < word.length(); j++) {
+            if (matrix[x + j * dx][y + j * dy] != word.charAt(j)) {
+                return false; // No coincide
+            }
+        }
+        return true; // Se encontró "XMAS"
+    }
 
 
     
