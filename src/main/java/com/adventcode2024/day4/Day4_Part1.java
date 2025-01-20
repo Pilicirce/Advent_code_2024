@@ -29,9 +29,6 @@ public class Day4_Part1 {
         }
 
 
-
-
-
         //2) Definir las direcciones de búsqueda.
         int[][] directions = {
             {0, 1},   // Derecha
@@ -45,22 +42,47 @@ public class Day4_Part1 {
         };
 
         //3) Escribir una función para contar "XMAS" en una dirección específica.
+        //3.1) Dado un punto de inicio (x, y) y una dirección (dx, dy), verifica si hay suficiente espacio para formar "XMAS".
+        //3.2) Si hay espacio, comprueba si las siguientes letras forman "XMAS".
+        public static boolean isXMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
+
+            String word = "XMAS";
+
+             // Verificar si hay suficiente espacio para formar la palabra
+        if (x + (word.length() - 1) * dx < 0 || x + (word.length() - 1) * dx >= matrix.length ||
+        y + (word.length() - 1) * dy < 0 || y + (word.length() - 1) * dy >= matrix[0].length) {
+        return false; // No hay espacio suficiente
+        }
+        
+             // Comprobar si las siguientes letras forman "XMAS"
+            for (int j = 0; j < word.length(); j++) {
+                if (matrix[x + j * dx][y + j * dy] != word.charAt(j)) {
+                    return false; // No coincide
+                }
+            }
+            return true; // Se encontró "XMAS"
+        }
+        
+
+        
 
         //4) Iterar sobre toda la matriz para cada dirección.
-        for (int[] direction : directions) {
-            int dx = direction[0];
-            int dy = direction[1];
-        
-            // Calculamos el siguiente punto
-            int newX = x + dx;
-            int newY = y + dy;
-        
-            // Aquí verificamos si newX y newY están dentro de los límites de la matriz
+        int totalXMASCount = 0;
+
+        for (int x = 0; x < matrix.length; x++) {
+            for (int y = 0; y < matrix[0].length; y++) {
+                for (int[] direction : directions) {
+                    int dx = direction[0];
+                    int dy = direction[1];
+                    if (isXMASInDirection(matrix, x, y, dx, dy)) {
+                        totalXMASCount++;
+                    }
+                }
+            }
         }
 
-        //5) Sumar los resultados
-
-
+        //5) 5) Imprimir el resultado
+System.out.println("Total XMAS Count: " + totalXMASCount);
 
 
 
@@ -70,6 +92,9 @@ public class Day4_Part1 {
         }
     }
 
+
+
+    
     /**
      * Lee el archivo y almacena el contenido en una matriz bidimensional de caracteres.
      */
