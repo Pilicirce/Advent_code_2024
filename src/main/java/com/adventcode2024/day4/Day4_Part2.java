@@ -39,7 +39,7 @@ public class Day4_Part2 {
         }
  
          //5) Imprimir el resultado
-     System.out.println("Total XMAS Count: " + totalX_MASCount);
+     System.out.println("Total X-MAS Count: " + totalX_MASCount);
 
 
         } catch (IOException e) {
@@ -81,13 +81,19 @@ public class Day4_Part2 {
      */
     public static boolean isXMAS(char[][] matrix, int x, int y) {
         
+        // Verificar que el punto central es 'A'
+         if (matrix[x][y] != 'A') {
+            return false;
+         }
+       
+        
         // 3.1) Verificar si las diagonales ↘ y ↖ forman "MAS" (método a parte)
         boolean diagonal1 = isMASInDirection(matrix, x, y, 1, 1) && isMASInDirection(matrix, x, y, -1, -1);
         //3.2)  Verificar si las diagonales ↙ y ↗ forman "MAS"
         boolean diagonal2 = isMASInDirection(matrix, x, y, 1, -1) && isMASInDirection(matrix, x, y, -1, 1);
     
         // El centro de ambas diagonales debe ser 'A'
-        return (diagonal1 || diagonal2) && matrix[x][y] == 'A';
+        return diagonal1 || diagonal2;
     }
 
 
@@ -98,19 +104,37 @@ public class Day4_Part2 {
     public static boolean isMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
         String word = "MAS";
 
-        // Verificar si hay suficiente espacio para formar la palabra
-        if (x + (word.length() - 1) * dx < 0 || x + (word.length() - 1) * dx >= matrix.length ||
-            y + (word.length() - 1) * dy < 0 || y + (word.length() - 1) * dy >= matrix[0].length) {
-            return false; // No hay espacio suficiente
-        }
+        // // Verificar si hay suficiente espacio para formar la palabra
+        // if (x + (word.length() - 1) * dx < 0 || x + (word.length() - 1) * dx >= matrix.length ||
+        //     y + (word.length() - 1) * dy < 0 || y + (word.length() - 1) * dy >= matrix[0].length) {
+        //     return false; // No hay espacio suficiente
+        // }
 
-        // Comprobar si las siguientes letras forman "MAS"
+        // // Comprobar si las siguientes letras forman "MAS"
+        // for (int j = 0; j < word.length(); j++) {
+        //     if (matrix[x + j * dx][y + j * dy] != word.charAt(j)) {
+        //         return false; // No coincide
+        //     }
+        // }
+        // return true; // Se encontró "MAS"
+
+        // Verificar si hay espacio suficiente en la dirección dada
         for (int j = 0; j < word.length(); j++) {
-            if (matrix[x + j * dx][y + j * dy] != word.charAt(j)) {
-                return false; // No coincide
-            }
-        }
-        return true; // Se encontró "MAS"
-    }
+            int nx = x + j * dx;
+            int ny = y + j * dy;
 
+            // Verificar límites
+            if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
+                return false;
+            }
+
+            // Comparar caracteres
+            if (matrix[nx][ny] != word.charAt(j)) {
+                return false;
+            }
+     }
+             return true;
+
+    }
+    
 }
