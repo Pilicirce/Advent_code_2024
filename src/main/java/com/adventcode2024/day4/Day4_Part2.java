@@ -67,36 +67,52 @@ public class Day4_Part2 {
         reader.close();
 
         // Convertimos la lista de filas en una matriz bidimensional
-        char[][] matrix = new char[rows.size()][];
-        for (int i = 0; i < rows.size(); i++) {
-            matrix[i] = rows.get(i);
-        }
+        // char[][] matrix = new char[rows.size()][];
+        // for (int i = 0; i < rows.size(); i++) {
+        //     matrix[i] = rows.get(i);
+        // }
 
-        return matrix;
+        // return matrix;
+        return rows.toArray(new char[0][]);
     }
 
 
     /**
-     *  2) Método que busca ambas diagonales para un "X_MAS" desde un punto (x,y).
+     *  2) Método para verificar si hay un "X-MAS" centrado en (x, y)
      */
     public static boolean isXMAS(char[][] matrix, int x, int y) {
-        
-        // Verificar que el punto central es 'A'
-         if (matrix[x][y] != 'A') {
+        // El punto central debe ser 'A'
+        if (matrix[x][y] != 'A') {
             return false;
-         }
-       
-        
-        // 3.1) Verificar si las diagonales ↘ y ↖ forman "MAS" (método a parte)
+        }
+
+        // // Verificar diagonales ↘ y ↖
         boolean diagonal1 = isMASInDirection(matrix, x, y, 1, 1) && isMASInDirection(matrix, x, y, -1, -1);
-        //3.2)  Verificar si las diagonales ↙ y ↗ forman "MAS"
+        // Verificar diagonales ↙ y ↗
         boolean diagonal2 = isMASInDirection(matrix, x, y, 1, -1) && isMASInDirection(matrix, x, y, -1, 1);
-    
-        // El centro de ambas diagonales debe ser 'A'
+
         return diagonal1 || diagonal2;
     }
 
+       
+        
+    //     // 3.1) Verificar si las diagonales ↘ y ↖ forman "MAS" (método a parte)
+    //     boolean diagonal1 = isMASInDirection(matrix, x, y, 1, 1) && isMASInDirection(matrix, x, y, -1, -1);
+    //     //3.2)  Verificar si las diagonales ↙ y ↗ forman "MAS"
+    //     boolean diagonal2 = isMASInDirection(matrix, x, y, 1, -1) && isMASInDirection(matrix, x, y, -1, 1);
+    
+    //     // El centro de ambas diagonales debe ser 'A'
+    //     return diagonal1 || diagonal2;
+    // }
 
+
+    // public static boolean checkDiagonal(char[][] matrix, int x, int y, int dx1, int dy1, int dx2, int dy2) {
+    //     // Verificar "MAS" en una dirección
+    //     boolean part1 = isMAS(matrix, x + dx1, y + dy1, dx1, dy1);
+    //     boolean part2 = isMAS(matrix, x + dx2, y + dy2, dx2, dy2);
+
+    //     return part1 && part2;
+    // }
 
  /**
      * 3.1) 3.2) Verifica si "XMAS" está presente en una dirección específica desde un punto dado en la matriz.
@@ -104,24 +120,10 @@ public class Day4_Part2 {
     public static boolean isMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
         String word = "MAS";
 
-        // // Verificar si hay suficiente espacio para formar la palabra
-        // if (x + (word.length() - 1) * dx < 0 || x + (word.length() - 1) * dx >= matrix.length ||
-        //     y + (word.length() - 1) * dy < 0 || y + (word.length() - 1) * dy >= matrix[0].length) {
-        //     return false; // No hay espacio suficiente
-        // }
-
-        // // Comprobar si las siguientes letras forman "MAS"
-        // for (int j = 0; j < word.length(); j++) {
-        //     if (matrix[x + j * dx][y + j * dy] != word.charAt(j)) {
-        //         return false; // No coincide
-        //     }
-        // }
-        // return true; // Se encontró "MAS"
-
         // Verificar si hay espacio suficiente en la dirección dada
-        for (int j = 0; j < word.length(); j++) {
-            int nx = x + j * dx;
-            int ny = y + j * dy;
+        for (int i = 0; i < word.length(); i++) {
+            int nx = x + i * dx;
+            int ny = y + i * dy;
 
             // Verificar límites
             if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
@@ -129,12 +131,13 @@ public class Day4_Part2 {
             }
 
             // Comparar caracteres
-            if (matrix[nx][ny] != word.charAt(j)) {
+            if (matrix[nx][ny] != word.charAt(i)) {
                 return false;
             }
-     }
-             return true;
+        }
 
+        return true;
     }
+     
     
 }
