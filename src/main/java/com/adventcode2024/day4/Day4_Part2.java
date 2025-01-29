@@ -91,10 +91,32 @@ public class Day4_Part2 {
         // Verificar diagonales ↙ y ↗
         boolean diagonal2 = isMASInDirection(matrix, x, y, 1, -1) && isMASInDirection(matrix, x, y, -1, 1);
 
-        return diagonal1 || diagonal2;
+        return diagonal1 && diagonal2;
     }
 
        
+    public static boolean checkDiagonal(char[][] matrix, int x, int y, int dx1, int dy1, int dx2, int dy2) {
+        // Verificar "MAS" en una dirección
+        boolean part1 = isMAS(matrix, x + dx1, y + dy1, dx1, dy1);
+        boolean part2 = isMAS(matrix, x + dx2, y + dy2, dx2, dy2);
+
+        return part1 && part2;
+    }
+
+
+    public static boolean isMAS(char[][] matrix, int x, int y, int dx, int dy) {
+        String word = "MAS";
+
+        for (int i = 0; i < word.length(); i++) {
+            int nx = x + i * dx;
+            int ny = y + i * dy;
+
+            if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length || matrix[nx][ny] != word.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
         
     //     // 3.1) Verificar si las diagonales ↘ y ↖ forman "MAS" (método a parte)
     //     boolean diagonal1 = isMASInDirection(matrix, x, y, 1, 1) && isMASInDirection(matrix, x, y, -1, -1);
