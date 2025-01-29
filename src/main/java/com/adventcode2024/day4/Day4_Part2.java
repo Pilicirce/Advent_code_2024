@@ -66,12 +66,6 @@ public class Day4_Part2 {
         }
         reader.close();
 
-        // Convertimos la lista de filas en una matriz bidimensional
-        // char[][] matrix = new char[rows.size()][];
-        // for (int i = 0; i < rows.size(); i++) {
-        //     matrix[i] = rows.get(i);
-        // }
-
         // return matrix;
         return rows.toArray(new char[0][]);
     }
@@ -81,18 +75,16 @@ public class Day4_Part2 {
      *  2) Método para verificar si hay un "X-MAS" centrado en (x, y)
      */
     public static boolean isXMAS(char[][] matrix, int x, int y) {
-        // El punto central debe ser 'A'
         if (matrix[x][y] != 'A') {
-            return false;
+            return false; // El centro debe ser 'A'
         }
 
-        // // Verificar diagonales ↘ y ↖
-        boolean diagonal1 = isMASInDirection(matrix, x, y, 1, 1) && isMASInDirection(matrix, x, y, -1, -1);
-        // Verificar diagonales ↙ y ↗
-        boolean diagonal2 = isMASInDirection(matrix, x, y, 1, -1) && isMASInDirection(matrix, x, y, -1, 1);
+        // Verificamos ambas diagonales
+    boolean diagonal1 = isMASInDirection(matrix, x, y, -1, -1) && isMASInDirection(matrix, x, y, 1, 1);
+    boolean diagonal2 = isMASInDirection(matrix, x, y, -1, 1) && isMASInDirection(matrix, x, y, 1, -1);
 
-        return diagonal1 && diagonal2;
-    }
+    return diagonal1 || diagonal2;
+}
 
        
     public static boolean checkDiagonal(char[][] matrix, int x, int y, int dx1, int dy1, int dx2, int dy2) {
@@ -118,48 +110,24 @@ public class Day4_Part2 {
         return true;
     }
         
-    //     // 3.1) Verificar si las diagonales ↘ y ↖ forman "MAS" (método a parte)
-    //     boolean diagonal1 = isMASInDirection(matrix, x, y, 1, 1) && isMASInDirection(matrix, x, y, -1, -1);
-    //     //3.2)  Verificar si las diagonales ↙ y ↗ forman "MAS"
-    //     boolean diagonal2 = isMASInDirection(matrix, x, y, 1, -1) && isMASInDirection(matrix, x, y, -1, 1);
-    
-    //     // El centro de ambas diagonales debe ser 'A'
-    //     return diagonal1 || diagonal2;
-    // }
-
-
-    // public static boolean checkDiagonal(char[][] matrix, int x, int y, int dx1, int dy1, int dx2, int dy2) {
-    //     // Verificar "MAS" en una dirección
-    //     boolean part1 = isMAS(matrix, x + dx1, y + dy1, dx1, dy1);
-    //     boolean part2 = isMAS(matrix, x + dx2, y + dy2, dx2, dy2);
-
-    //     return part1 && part2;
-    // }
-
+   
  /**
      * 3.1) 3.2) Verifica si "XMAS" está presente en una dirección específica desde un punto dado en la matriz.
      */
     public static boolean isMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
-        String word = "MAS";
-
-        // Verificar si hay espacio suficiente en la dirección dada
-        for (int i = 0; i < word.length(); i++) {
-            int nx = x + i * dx;
-            int ny = y + i * dy;
-
-            // Verificar límites
-            if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
-                return false;
-            }
-
-            // Comparar caracteres
-            if (matrix[nx][ny] != word.charAt(i)) {
-                return false;
-            }
-        }
-
+        // Verificamos si la dirección forma "MAS"
+        if (!isInside(matrix, x + dx, y + dy) || matrix[x + dx][y + dy] != 'M') return false;
+        if (!isInside(matrix, x + 2*dx, y + 2*dy) || matrix[x + 2*dx][y + 2*dy] != 'A') return false;
+        if (!isInside(matrix, x + 3*dx, y + 3*dy) || matrix[x + 3*dx][y + 3*dy] != 'S') return false;
+        
         return true;
     }
-     
+
+    // Función auxiliar para verificar límites de la matriz
+    public static boolean isInside(char[][] matrix, int x, int y) {
+        return x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length;
+    }
+
+    
     
 }
