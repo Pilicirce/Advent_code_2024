@@ -8,7 +8,6 @@ public class Day4_Part2 {
     public static void main(String[] args) {
 
         solveDay4Part2();
-
         }
 
     public static void solveDay4Part2() {
@@ -79,55 +78,36 @@ public class Day4_Part2 {
             return false; // El centro debe ser 'A'
         }
 
-        // Verificamos ambas diagonales
-    boolean diagonal1 = isMASInDirection(matrix, x, y, -1, -1) && isMASInDirection(matrix, x, y, 1, 1);
-    boolean diagonal2 = isMASInDirection(matrix, x, y, -1, 1) && isMASInDirection(matrix, x, y, 1, -1);
+        // Verificar ambas diagonales ↘ y ↖ (descendente y ascendente)
+        boolean diagonal1 = isMASInDirection(matrix, x, y, -1, -1) && isMASInDirection(matrix, x, y, 1, 1);
+        // Verificar ambas diagonales ↙ y ↗ (descendente y ascendente)
+        boolean diagonal2 = isMASInDirection(matrix, x, y, -1, 1) && isMASInDirection(matrix, x, y, 1, -1);
+
 
     return diagonal1 || diagonal2;
 }
 
        
-    public static boolean checkDiagonal(char[][] matrix, int x, int y, int dx1, int dy1, int dx2, int dy2) {
-        // Verificar "MAS" en una dirección
-        boolean part1 = isMAS(matrix, x + dx1, y + dy1, dx1, dy1);
-        boolean part2 = isMAS(matrix, x + dx2, y + dy2, dx2, dy2);
+  //3) Método para verificar si una "MAS" está presente en una dirección específica
+  public static boolean isMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
+    //3.1) La "MAS" debe tener una estructura de 3 letras en la dirección dada
+    int x1 = x + dx, y1 = y + dy;    // Primera letra (M)
+    int x2 = x + 2 * dx, y2 = y + 2 * dy;  // Segunda letra (A)
+    int x3 = x + 3 * dx, y3 = y + 3 * dy;  // Tercera letra (S)
 
-        return part1 && part2;
+    // 3.2)Verificar límites de la matriz
+    if (!isInside(matrix, x1, y1) || !isInside(matrix, x2, y2) || !isInside(matrix, x3, y3)) {
+        return false;
     }
 
+    // 3.3)Comprobar que la secuencia es "MAS"
+    return matrix[x1][y1] == 'M' && matrix[x2][y2] == 'A' && matrix[x3][y3] == 'S';
+}
 
-    public static boolean isMAS(char[][] matrix, int x, int y, int dx, int dy) {
-        String word = "MAS";
-
-        for (int i = 0; i < word.length(); i++) {
-            int nx = x + i * dx;
-            int ny = y + i * dy;
-
-            if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length || matrix[nx][ny] != word.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-        
-   
- /**
-     * 3.1) 3.2) Verifica si "XMAS" está presente en una dirección específica desde un punto dado en la matriz.
-     */
-    public static boolean isMASInDirection(char[][] matrix, int x, int y, int dx, int dy) {
-        // Verificamos si la dirección forma "MAS"
-        if (!isInside(matrix, x + dx, y + dy) || matrix[x + dx][y + dy] != 'M') return false;
-        if (!isInside(matrix, x + 2*dx, y + 2*dy) || matrix[x + 2*dx][y + 2*dy] != 'A') return false;
-        if (!isInside(matrix, x + 3*dx, y + 3*dy) || matrix[x + 3*dx][y + 3*dy] != 'S') return false;
-        
-        return true;
-    }
-
-    // Función auxiliar para verificar límites de la matriz
-    public static boolean isInside(char[][] matrix, int x, int y) {
-        return x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length;
-    }
-
+//3.4) Función auxiliar para verificar límites de la matriz
+public static boolean isInside(char[][] matrix, int x, int y) {
+    return x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length;
+}
     
     
 }
