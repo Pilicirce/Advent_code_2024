@@ -19,21 +19,25 @@ public class Day4_Part2 {
         try {
             //1) Leer el archivo y convertirlo en una matriz de caracteres
             char[][] matrix = readFileAsMatrix(filePath);
-            //BufferedReader reader = new BufferedReader(new FileReader(filePath));
         
         // Iterar a través de la matriz para encontrar patrones "X-MAS"
-        int totalX_MASCount = 0;
-        for (int x = 1; x < matrix.length - 1; x++) {
-            for (int y = 1; y < matrix[0].length - 1; y++) {
-                if (matrix[x][y] == 'A') { // Solo evaluar si encontramos una 'A'
-                    int countMAS = 0;
+       // Iterar a través de la matriz para encontrar patrones "X-MAS"
+       int totalX_MASCount = 0;
+       for (int x = 1; x < matrix.length - 1; x++) {
+           for (int y = 1; y < matrix[0].length - 1; y++) {
+               if (matrix[x][y] == 'A') { // Solo evaluar si encontramos una 'A'
+                   int countMAS = 0;
 
+                   // Comprobaciones en las 4 direcciones diagonales
+                   boolean check1 = checkDirection(matrix, x, y, -1, -1, 1, 1); // ↖ y ↘
+                   boolean check2 = checkDirection(matrix, x, y, -1, 1, 1, -1); // ↗ y ↙
+                   boolean check3 = checkDirection(matrix, x, y, 1, -1, -1, 1); // ↙ y ↗
+                   boolean check4 = checkDirection(matrix, x, y, 1, 1, -1, -1); // ↘ y ↖
 
-                        // 3) Comprobaciones en las 4 direcciones diagonales
-                        boolean check1 = checkDirection(matrix, x, y, -1, -1, 1, 1); // ↖ y ↘
-                        boolean check2 = checkDirection(matrix, x, y, -1, 1, 1, -1); // ↗ y ↙
-                        boolean check3 = checkDirection(matrix, x, y, 1, -1, -1, 1); // ↙ y ↗
-                        boolean check4 = checkDirection(matrix, x, y, 1, 1, -1, -1); // ↘ y ↖
+                   if (check1) countMAS++;
+                   if (check2) countMAS++;
+                   if (check3) countMAS++;
+                   if (check4) countMAS++;
 
                         // Imprimir el resultado de cada verificación
                         // System.out.println("↖ y ↘ : " + check1);
@@ -41,12 +45,8 @@ public class Day4_Part2 {
                         // System.out.println("↙ y ↗ : " + check3);
                         // System.out.println("↘ y ↖ : " + check4);
 
-                        if (check1) countMAS++;
-                        if (check2) countMAS++;
-                        if (check3) countMAS++;
-                        if (check4) countMAS++;
 
-                        // 4) Si al menos dos direcciones formaron "MAS", contamos un "X-MAS"
+                        // 4)  // Si al menos dos direcciones formaron "MAS", contamos un "X-MAS"
                         if (countMAS >= 2) {
                             totalX_MASCount++;
                             System.out.println("X-MAS encontrado en (" + x + ", " + y + ")! Total: " + totalX_MASCount);
@@ -65,13 +65,20 @@ public class Day4_Part2 {
 
     private static boolean checkDirection(char[][] matrix, int x, int y, int dx1, int dy1, int dx2, int dy2) {
         try {
-            return (matrix[x + dx1][y + dy1] == 'M' && matrix[x + dx1 * 2][y + dy1 * 2] == 'S' &&
-                    matrix[x + dx2][y + dy2] == 'M' && matrix[x + dx2 * 2][y + dy2 * 2] == 'S');
+            // Verificar las combinaciones posibles de "MAS" en las direcciones diagonales
+            return ((matrix[x + dx1][y + dy1] == 'M' && matrix[x + dx1 * 2][y + dy1 * 2] == 'S' &&
+                     matrix[x + dx2][y + dy2] == 'M' && matrix[x + dx2 * 2][y + dy2 * 2] == 'S') ||
+                    (matrix[x + dx1][y + dy1] == 'M' && matrix[x + dx1 * 2][y + dy1 * 2] == 'S' &&
+                     matrix[x + dx2][y + dy2] == 'S' && matrix[x + dx2 * 2][y + dy2 * 2] == 'M') ||
+                    (matrix[x + dx1][y + dy1] == 'S' && matrix[x + dx1 * 2][y + dy1 * 2] == 'M' &&
+                     matrix[x + dx2][y + dy2] == 'M' && matrix[x + dx2 * 2][y + dy2 * 2] == 'S') ||
+                    (matrix[x + dx1][y + dy1] == 'S' && matrix[x + dx1 * 2][y + dy1 * 2] == 'M' &&
+                     matrix[x + dx2][y + dy2] == 'S' && matrix[x + dx2 * 2][y + dy2 * 2] == 'M')
+                     );
         } catch (IndexOutOfBoundsException e) {
             return false;
         }
     }
-
 
   
 
